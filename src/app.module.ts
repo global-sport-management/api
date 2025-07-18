@@ -14,6 +14,9 @@ import { LoggingInterceptor } from './common/logging/logging.interceptor';
 import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 
 //import { PaymentModule } from './modules/payment/payment.module';
+import { ClubsModule } from './clubs/clubs.module';
+import { EventsModule } from './events/events.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -48,6 +51,9 @@ import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
     }),
     AuthModule,
     UserModule,
+    ClubsModule,
+    EventsModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [
