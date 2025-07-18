@@ -10,20 +10,12 @@ import {
 } from 'class-validator';
 import { IsOptional } from 'class-validator';
 
-export class SocialLoginBodyDto {
+export class GoogleLoginBodyDto {
     @IsString()
-    @IsNotEmpty()
+    @IsNotEmpty({message: i18nValidationMessage('validation.isNotEmpty')})
     @ApiProperty({
       required: true,
       description: 'token',
     })
     token: string;
-  
-    @IsDefined()
-    @IsEmail()
-    @ApiProperty({
-      required: true,
-      description: 'email ',
-    })
-    email: string;
   }

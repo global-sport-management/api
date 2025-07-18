@@ -15,17 +15,15 @@ import { IsOptional } from 'class-validator';
 export class RegisterBodyDto {
 
   @IsString()
-  @Matches(/^(0)(3|5|7|8|9)([0-9]{8})$/, {
-    message: 'Số điện thoại chưa hợp lệ.',
-  })
+  @IsDefined()
+  @IsNotEmpty()
+  @IsEmail({}, { message: i18nValidationMessage('auth.validation.email') })
   @ApiProperty({
     required: true,
-    minLength: 10,
-    maxLength: 10,
-    example:'0708888012',
-    description: 'Số điện thoại',
+    example:'admin@google.com',
+    description: 'email',
   })
-  phoneNumber: string;
+  email: string;
 
   @IsDefined()
   @IsString()
@@ -50,7 +48,7 @@ export class RegisterBodyDto {
   @ApiProperty({
     required: true,
     description: 'Mật khẩu phải từ 8 đến 12 kí tự và không có khoảng trắng.',
-    minLength: 6,
+    minLength: 8,
     example:'12345678',
     maxLength: 12,
   })
@@ -64,7 +62,7 @@ export class RegisterBodyDto {
   @ApiProperty({
     required: true,
     description: 'Mật khẩu xác nhận phải từ 8 đến 12 kí tự và không có khoảng trắng.',
-    minLength: 6,
+    minLength: 8,
     example:'12345678',
     maxLength: 12,
   })

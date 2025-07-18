@@ -2,12 +2,18 @@ import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException,
 import { AuthInterface } from './auth.service.interface';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from '../user/user.schema';
+import { UserPlatformTypeName, UserRole } from '../user/user.schema';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { CustomLoggerService } from 'src/common/logging/custom-logger.service';
 import { SendOtpDto } from './dto/send-otp.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { OAuth2Client } from 'google-auth-library';
+import axios from 'axios';
+import { verifyAppleToken } from './apple-auth.utils';
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 @Injectable()
 export class AuthService implements AuthInterface {
@@ -24,26 +30,26 @@ export class AuthService implements AuthInterface {
      return otp;
   }
   async register(body: any) {
-      const { phoneNumber, name ,password, rePassword} = body;
+      const { email, name ,password, rePassword} = body;
       if (password!= rePassword) {
         throw new BadRequestException('Mật khậu xác nhận không đúng.');
       }
       const saltOrRounds = 10;
       const hash = await bcrypt.hash(password, saltOrRounds);
-      console.log(`Up`);
-      const user: any = await this.userService.findOne({phoneNumber});
+     
+      const user: any = await this.userService.findOne({email});
       if (user) {
         throw new BadRequestException('Số điện thoại đã tồn tại');
       }
-      console.log(`Up`);
+     
       try {
       let data = {
-        phoneNumber,
+        email,
         name,
         hash,
       };
       const newUser = await this.userService.create(data);
-      console.log(`Up`);
+   
       return newUser;
     }
     catch (e) {
@@ -52,14 +58,14 @@ export class AuthService implements AuthInterface {
 
   }
   async login(body: any) {
-    const user: any = await this.userService.findOne({ phoneNumber: body.phoneNumber, enable: true });
+    const user: any = await this.userService.findOne({ email: body.email, enable: true });
     if (user) {
       if (bcrypt.compareSync(body.password, user.hash)) {
         if (!user.isVerified) {
           throw new UnauthorizedException('Số điện thoại chưa được xác thực.');
         }
         const accessToken = await this.generateToken(user);
-        console.log(`${new Date()} login from phone number: ${body.phoneNumber}`);
+        console.log(`${new Date()} login from email: ${body.email}`);
         return { accessToken, userInfo: user }
       }
       else {
@@ -70,9 +76,144 @@ export class AuthService implements AuthInterface {
       throw new BadRequestException('Tài khoản không tồn tại.');
     }
   }
-  socialLogin(body: any) {
-    throw new Error('Method not implemented.');
+  async googleLogin(body: any) {
+
+    const ticket = await client.verifyIdToken({
+      idToken: body.token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      throw new UnauthorizedException('Invalid Google token');
+    }
+
+    const googleId = payload['sub'];
+    const email = payload['email'];
+    const name = payload['name'];
+    const avatar = payload['picture'];
+
+    // Kiểm tra user đã tồn tại hay chưa
+    let user = await await this.userService.findOne({
+      platform: UserPlatformTypeName.Google,
+      platformId: googleId,
+    });
+
+    if (!user) {
+      // Tạo user mới
+      const userBody = {
+        email,
+        name,
+        avatar,
+        platform: UserPlatformTypeName.Google,
+        platformId: googleId,
+        isVerified: true,
+        role: UserRole.USER,
+      };
+      user = await this.userService.create(userBody);
+    }
+
+    // Tạo access token
+    const accessToken = await this.generateToken(user);
+    return {
+      accessToken,
+      userInfo: user,
+    };
+  
   }
+
+  async facebookLogin(body: any) {
+    const { token } = body;
+    // Call Facebook Graph API to get user profile
+    const fbUrl = `https://graph.facebook.com/me?fields=id,name,email,picture&access_token=${token}`;
+
+    let fbUser;
+    try {
+      const response = await axios.get(fbUrl);
+      fbUser = response.data;
+    } catch (err) {
+      throw new UnauthorizedException('Invalid Facebook token');
+    }
+
+    const facebookId = fbUser.id;
+    const name = fbUser.name;
+    const email = fbUser?.email || '';
+    const avatar = fbUser.picture?.data?.url || '';
+
+    // Check if user exists
+    let user = await this.userService.findOne({
+      platform: UserPlatformTypeName.Facebook,
+      platformId: facebookId,
+    });
+
+    if (!user) {
+      // Create new user
+      user = await this.userService.create({
+        email,
+        name,
+        avatar,
+        platform: UserPlatformTypeName.Facebook,
+        platformId: facebookId,
+        isVerified: true,
+        role: UserRole.USER,
+      });
+    }
+
+    // Generate JWT
+    const accessTokenJwt = this.jwtService.sign({
+      sub: user._id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return {
+      accessToken: accessTokenJwt,
+      userInfo: user,
+    };
+  }
+
+  async appleLogin(body: { identityToken: string; name?: string }) {
+    let applePayload;
+    try {
+      applePayload = await verifyAppleToken(body.identityToken);
+    } catch (e) {
+      throw new UnauthorizedException('Invalid Apple identity token');
+    }
+
+    const appleId = applePayload.sub;
+    const email = applePayload.email || '';
+    const name = body.name || '';
+
+    let user = await this.userService.findOne({
+      platform: UserPlatformTypeName.Apple,
+      platformId: appleId,
+    });
+
+    if (!user) {
+      // Apple chỉ gửi tên trong lần đăng nhập đầu tiên
+      user = await this.userService.create({
+        email,
+        name,
+        platform: UserPlatformTypeName.Apple,
+        platformId: appleId,
+        isVerified: true,
+        role: UserRole.USER,
+      });
+    }
+
+    const accessToken = this.jwtService.sign({
+      sub: user._id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return {
+      accessToken,
+      userInfo: user,
+    };
+  }
+
   findPassword(body: any) {
     throw new Error('Method not implemented.');
   }
@@ -86,8 +227,8 @@ export class AuthService implements AuthInterface {
       {
         id: user.id,
         role: (user?.role) ? user?.role : UserRole.USER,
-        //email: user?.email,
-        phoneNumber: user?.phoneNumber,
+        email: user?.email,
+       // phoneNumber: user?.phoneNumber,
       },
       {
         secret: this.configService.get('JWT_SECRET'),
