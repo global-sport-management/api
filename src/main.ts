@@ -19,8 +19,8 @@ async function bootstrap() {
   app.useGlobalFilters(new I18nValidationExceptionFilter());
   if (configuration['ENVIRONMENT'] !== 'prod') {
     const config = new DocumentBuilder()
-      .setTitle('Prime Hao Hao nestjs')
-      .setDescription('The Prime Hao Hao API description')
+      .setTitle('Sport Management nestjs')
+      .setDescription('Sport Management API description')
       .setVersion('0.1')
       .addBearerAuth()
       .build();
