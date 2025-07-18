@@ -24,7 +24,7 @@ import { UserPayload } from '../../modules/auth/passports/jwt.strategy';
 import { UserService } from './user.service';
 import { CustomLoggerService } from 'src/common/logging/custom-logger.service';
 
-@Controller('/v1/users')
+@Controller('/api/v1/users')
 @ApiTags('User APIs')
 export class UserController {
   constructor(

@@ -13,31 +13,32 @@ export enum UserRole {
 
 export enum UserPlatformTypeName {
   Email = 'email',
+  Google = 'google',
+  Facebook = 'facebook',
+  Apple = 'apple',
   Twitter = 'twitter',
   Telegram = 'telegram',
-  Facebook = 'facebook',
   Discord = 'discord',
   Web = 'web',
   Medium = 'medium',
 }
+
 export enum UserDeviceOS {
   ANDROID = 'android',
   IOS = 'ios',
 }
 
 export enum UserGender {
-  MALE = 'Nam',
-  FEMALE = 'Nữ',
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+  NOT_SPECIFIED = 'not_specified',
 }
-
-export enum UserIncomeClass {
-  A = 'A',
-  B = 'B',
-  C = 'C',
-  D = 'D',
-  F = 'F',
+export enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  BLOCKED = 'blocked',
 }
-
 @Schema({
   toJSON: {
     virtuals: true,
@@ -68,6 +69,11 @@ export class User {
     description: 'Unique ID of the user',
   })
   _id: ObjectId;
+   @Prop({ type: mongoose.Schema.Types.String, unique:true })
+  @ApiProperty({
+    description: 'email',
+  })
+  email: string;
 
   @Prop({ type: mongoose.Schema.Types.String, default: '' })
   @ApiProperty({
@@ -75,11 +81,35 @@ export class User {
   })
   name: string;
 
+  @Prop({ type: mongoose.Schema.Types.String, default: '' })
+  @ApiProperty({
+    description: 'username',
+  })
+  username: string;
+
+  @Prop({ type: mongoose.Schema.Types.String, default: '' })
+  @ApiProperty({
+    description: 'avatar',
+  })
+  avatar: string;
+
   @Prop({ type: mongoose.Schema.Types.String, unique:true })
   @ApiProperty({
     description: 'phoneNumber',
   })
   phoneNumber: string;
+
+  @Prop({ type: mongoose.Schema.Types.String, enum: UserPlatformTypeName, default: UserPlatformTypeName.Email })
+@ApiProperty({
+  description: 'Platform used for registration/login (email, google, facebook, apple, etc.)',
+})
+platform: UserPlatformTypeName;
+
+@Prop({ type: mongoose.Schema.Types.String, default: null })
+@ApiProperty({
+  description: 'OAuth platform id (e.g., Google ID, Facebook ID, Apple ID)',
+})
+platformId: string;
 
   @Prop({ type: mongoose.Schema.Types.String, default: '' })
   @ApiProperty({
@@ -96,11 +126,6 @@ export class User {
   @Prop({ type: mongoose.Schema.Types.Date, default: new Date(Date.now() + 10 * 60000) })
   otpExpiration: Date;
 
-  @Prop({ type: mongoose.Schema.Types.String, default: '' })
-  @ApiProperty({
-    description: 'avatar',
-  })
-  avatar: string;
 
   @Prop({ type: mongoose.Schema.Types.String })
   @ApiProperty({

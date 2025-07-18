@@ -2,12 +2,16 @@ import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException,
 import { AuthInterface } from './auth.service.interface';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from '../user/user.schema';
+import { UserPlatformTypeName, UserRole } from '../user/user.schema';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { CustomLoggerService } from 'src/common/logging/custom-logger.service';
 import { SendOtpDto } from './dto/send-otp.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { OAuth2Client } from 'google-auth-library';
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 @Injectable()
 export class AuthService implements AuthInterface {
@@ -24,26 +28,26 @@ export class AuthService implements AuthInterface {
      return otp;
   }
   async register(body: any) {
-      const { phoneNumber, name ,password, rePassword} = body;
+      const { email, name ,password, rePassword} = body;
       if (password!= rePassword) {
         throw new BadRequestException('Mật khậu xác nhận không đúng.');
       }
       const saltOrRounds = 10;
       const hash = await bcrypt.hash(password, saltOrRounds);
-      console.log(`Up`);
-      const user: any = await this.userService.findOne({phoneNumber});
+     
+      const user: any = await this.userService.findOne({email});
       if (user) {
         throw new BadRequestException('Số điện thoại đã tồn tại');
       }
-      console.log(`Up`);
+     
       try {
       let data = {
-        phoneNumber,
+        email,
         name,
         hash,
       };
       const newUser = await this.userService.create(data);
-      console.log(`Up`);
+   
       return newUser;
     }
     catch (e) {
@@ -52,14 +56,14 @@ export class AuthService implements AuthInterface {
 
   }
   async login(body: any) {
-    const user: any = await this.userService.findOne({ phoneNumber: body.phoneNumber, enable: true });
+    const user: any = await this.userService.findOne({ email: body.email, enable: true });
     if (user) {
       if (bcrypt.compareSync(body.password, user.hash)) {
         if (!user.isVerified) {
           throw new UnauthorizedException('Số điện thoại chưa được xác thực.');
         }
         const accessToken = await this.generateToken(user);
-        console.log(`${new Date()} login from phone number: ${body.phoneNumber}`);
+        console.log(`${new Date()} login from email: ${body.email}`);
         return { accessToken, userInfo: user }
       }
       else {
@@ -70,8 +74,51 @@ export class AuthService implements AuthInterface {
       throw new BadRequestException('Tài khoản không tồn tại.');
     }
   }
-  socialLogin(body: any) {
-    throw new Error('Method not implemented.');
+  async googleLogin(body: any) {
+
+    const ticket = await client.verifyIdToken({
+      idToken: body.token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      throw new UnauthorizedException('Invalid Google token');
+    }
+
+    const googleId = payload['sub'];
+    const email = payload['email'];
+    const name = payload['name'];
+    const avatar = payload['picture'];
+
+    // Kiểm tra user đã tồn tại hay chưa
+    let user = await await this.userService.findOne({
+      platform: UserPlatformTypeName.Google,
+      platformId: googleId,
+    });
+
+    if (!user) {
+      // Tạo user mới
+      const userBody = {
+        email,
+        name,
+        avatar,
+        platform: UserPlatformTypeName.Google,
+        platformId: googleId,
+        isVerified: true,
+        role: UserRole.USER,
+      };
+      user = await this.userService.create(userBody);
+    }
+
+    // Tạo access token
+    const accessToken = await this.generateToken(user);
+    return {
+      accessToken,
+      userInfo: user,
+    };
+  
   }
   findPassword(body: any) {
     throw new Error('Method not implemented.');
@@ -86,8 +133,8 @@ export class AuthService implements AuthInterface {
       {
         id: user.id,
         role: (user?.role) ? user?.role : UserRole.USER,
-        //email: user?.email,
-        phoneNumber: user?.phoneNumber,
+        email: user?.email,
+       // phoneNumber: user?.phoneNumber,
       },
       {
         secret: this.configService.get('JWT_SECRET'),

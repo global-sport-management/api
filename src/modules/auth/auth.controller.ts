@@ -19,8 +19,9 @@ import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { SendOtpDto } from './dto/send-otp.dto';
 import { Throttle } from '@nestjs/throttler';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { GoogleLoginBodyDto } from './dto/login-google.dto';
 
-@Controller('/v1/auth')
+@Controller('/api/v1/auth')
 @ApiTags('Auth APIs')
 export class AuthController {
   constructor(
@@ -78,6 +79,35 @@ export class AuthController {
     // return result;
     try {
       return  await this.authService.login(body);
+    } catch (error) {
+      this.logger.error('Login request failed', error.stack);
+      throw error; // Re-throw the error to ensure the client receives it
+    }
+  }
+
+  @Post('/login-google')
+  @Throttle({ default: { limit: 6, ttl: 10000 } })
+  @ApiOperation({
+    summary: 'Login Google',
+    description: 'Login Google',
+  })
+  @ApiResponse({
+    description: 'Created successfully',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid parameter',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
+  public async loginGoogle(@Body() body: GoogleLoginBodyDto) {
+    // const result = await this.service.login(body);
+    // return result;
+    try {
+      return  await this.authService.googleLogin(body);
     } catch (error) {
       this.logger.error('Login request failed', error.stack);
       throw error; // Re-throw the error to ensure the client receives it
