@@ -80,7 +80,7 @@ var User = /** @class */ (function () {
         })
     ], User.prototype, "avatar");
     __decorate([
-        mongoose_1.Prop({ type: mongoose_2["default"].Schema.Types.String, unique: true }),
+        mongoose_1.Prop({ type: mongoose_2["default"].Schema.Types.String, "default": '' }),
         swagger_1.ApiProperty({
             description: 'phoneNumber'
         })

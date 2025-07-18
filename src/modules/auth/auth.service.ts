@@ -9,6 +9,8 @@ import { CustomLoggerService } from 'src/common/logging/custom-logger.service';
 import { SendOtpDto } from './dto/send-otp.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { OAuth2Client } from 'google-auth-library';
+import axios from 'axios';
+import { verifyAppleToken } from './apple-auth.utils';
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -120,6 +122,98 @@ export class AuthService implements AuthInterface {
     };
   
   }
+
+  async facebookLogin(body: any) {
+    const { token } = body;
+    // Call Facebook Graph API to get user profile
+    const fbUrl = `https://graph.facebook.com/me?fields=id,name,email,picture&access_token=${token}`;
+
+    let fbUser;
+    try {
+      const response = await axios.get(fbUrl);
+      fbUser = response.data;
+    } catch (err) {
+      throw new UnauthorizedException('Invalid Facebook token');
+    }
+
+    const facebookId = fbUser.id;
+    const name = fbUser.name;
+    const email = fbUser?.email || '';
+    const avatar = fbUser.picture?.data?.url || '';
+
+    // Check if user exists
+    let user = await this.userService.findOne({
+      platform: UserPlatformTypeName.Facebook,
+      platformId: facebookId,
+    });
+
+    if (!user) {
+      // Create new user
+      user = await this.userService.create({
+        email,
+        name,
+        avatar,
+        platform: UserPlatformTypeName.Facebook,
+        platformId: facebookId,
+        isVerified: true,
+        role: UserRole.USER,
+      });
+    }
+
+    // Generate JWT
+    const accessTokenJwt = this.jwtService.sign({
+      sub: user._id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return {
+      accessToken: accessTokenJwt,
+      userInfo: user,
+    };
+  }
+
+  async appleLogin(body: { identityToken: string; name?: string }) {
+    let applePayload;
+    try {
+      applePayload = await verifyAppleToken(body.identityToken);
+    } catch (e) {
+      throw new UnauthorizedException('Invalid Apple identity token');
+    }
+
+    const appleId = applePayload.sub;
+    const email = applePayload.email || '';
+    const name = body.name || '';
+
+    let user = await this.userService.findOne({
+      platform: UserPlatformTypeName.Apple,
+      platformId: appleId,
+    });
+
+    if (!user) {
+      // Apple chỉ gửi tên trong lần đăng nhập đầu tiên
+      user = await this.userService.create({
+        email,
+        name,
+        platform: UserPlatformTypeName.Apple,
+        platformId: appleId,
+        isVerified: true,
+        role: UserRole.USER,
+      });
+    }
+
+    const accessToken = this.jwtService.sign({
+      sub: user._id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return {
+      accessToken,
+      userInfo: user,
+    };
+  }
+
   findPassword(body: any) {
     throw new Error('Method not implemented.');
   }

@@ -69,7 +69,7 @@ export class User {
     description: 'Unique ID of the user',
   })
   _id: ObjectId;
-   @Prop({ type: mongoose.Schema.Types.String, unique:true })
+  @Prop({ type: mongoose.Schema.Types.String, unique: true })
   @ApiProperty({
     description: 'email',
   })
@@ -93,23 +93,23 @@ export class User {
   })
   avatar: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, unique:true })
+  @Prop({ type: mongoose.Schema.Types.String, default: '' })
   @ApiProperty({
     description: 'phoneNumber',
   })
   phoneNumber: string;
 
   @Prop({ type: mongoose.Schema.Types.String, enum: UserPlatformTypeName, default: UserPlatformTypeName.Email })
-@ApiProperty({
-  description: 'Platform used for registration/login (email, google, facebook, apple, etc.)',
-})
-platform: UserPlatformTypeName;
+  @ApiProperty({
+    description: 'Platform used for registration/login (email, google, facebook, apple, etc.)',
+  })
+  platform: UserPlatformTypeName;
 
-@Prop({ type: mongoose.Schema.Types.String, default: null })
-@ApiProperty({
-  description: 'OAuth platform id (e.g., Google ID, Facebook ID, Apple ID)',
-})
-platformId: string;
+  @Prop({ type: mongoose.Schema.Types.String, default: null })
+  @ApiProperty({
+    description: 'OAuth platform id (e.g., Google ID, Facebook ID, Apple ID)',
+  })
+  platformId: string;
 
   @Prop({ type: mongoose.Schema.Types.String, default: '' })
   @ApiProperty({
@@ -132,7 +132,7 @@ platformId: string;
     description: 'hash',
   })
   hash: string;
- 
+
   @Prop({ type: mongoose.Schema.Types.String, default: UserRole.USER })
   @ApiProperty({
     description: 'User role',
@@ -157,7 +157,7 @@ platformId: string;
     description: 'deviceOs'
   })
   deviceOs: string;
-  
+
   @Prop({ type: mongoose.Schema.Types.Date, default: () => new Date() })
   @ApiProperty({
     description: 'Created date',

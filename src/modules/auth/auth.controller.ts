@@ -20,6 +20,8 @@ import { SendOtpDto } from './dto/send-otp.dto';
 import { Throttle } from '@nestjs/throttler';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { GoogleLoginBodyDto } from './dto/login-google.dto';
+import { FacebookLoginBodyDto } from './dto/login-facebook.dto';
+import { AppleLoginBodyDto } from './dto/login-apple.dto';
 
 @Controller('/api/v1/auth')
 @ApiTags('Auth APIs')
@@ -113,6 +115,65 @@ export class AuthController {
       throw error; // Re-throw the error to ensure the client receives it
     }
   }
+
+  @Post('/login-facebook')
+  @Throttle({ default: { limit: 6, ttl: 10000 } })
+  @ApiOperation({
+    summary: 'Login Facebook',
+    description: 'Login Facebook',
+  })
+  @ApiResponse({
+    description: 'Created successfully',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid parameter',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
+  public async loginFacebook(@Body() body: FacebookLoginBodyDto) {
+    // const result = await this.service.login(body);
+    // return result;
+    try {
+      return  await this.authService.facebookLogin(body);
+    } catch (error) {
+      this.logger.error('Login request failed', error.stack);
+      throw error; // Re-throw the error to ensure the client receives it
+    }
+  }
+
+  @Post('/login-apple')
+  @Throttle({ default: { limit: 6, ttl: 10000 } })
+  @ApiOperation({
+    summary: 'Login Apple',
+    description: 'Login Apple',
+  })
+  @ApiResponse({
+    description: 'Created successfully',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid parameter',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
+  public async loginApple(@Body() body: AppleLoginBodyDto) {
+    // const result = await this.service.login(body);
+    // return result;
+    try {
+      return  await this.authService.appleLogin(body);
+    } catch (error) {
+      this.logger.error('Login request failed', error.stack);
+      throw error; // Re-throw the error to ensure the client receives it
+    }
+  }
+
   @Post('verify-otp')
   @Throttle({ default: { limit: 6, ttl: 10000 } })
   @ApiOperation({

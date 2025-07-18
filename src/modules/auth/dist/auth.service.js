@@ -51,6 +51,8 @@ var user_service_1 = require("../user/user.service");
 var user_schema_1 = require("../user/user.schema");
 var bcrypt = require("bcrypt");
 var google_auth_library_1 = require("google-auth-library");
+var axios_1 = require("axios");
+var apple_auth_utils_1 = require("./apple-auth.utils");
 var client = new google_auth_library_1.OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 var AuthService = /** @class */ (function () {
     function AuthService(userService, jwtService, configService, logger) {
@@ -182,6 +184,116 @@ var AuthService = /** @class */ (function () {
                     case 5: return [4 /*yield*/, this.generateToken(user)];
                     case 6:
                         accessToken = _a.sent();
+                        return [2 /*return*/, {
+                                accessToken: accessToken,
+                                userInfo: user
+                            }];
+                }
+            });
+        });
+    };
+    AuthService.prototype.facebookLogin = function (body) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function () {
+            var token, fbUrl, fbUser, response, err_1, facebookId, name, email, avatar, user, accessTokenJwt;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        token = body.token;
+                        fbUrl = "https://graph.facebook.com/me?fields=id,name,email,picture&access_token=" + token;
+                        _c.label = 1;
+                    case 1:
+                        _c.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, axios_1["default"].get(fbUrl)];
+                    case 2:
+                        response = _c.sent();
+                        fbUser = response.data;
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _c.sent();
+                        throw new common_1.UnauthorizedException('Invalid Facebook token');
+                    case 4:
+                        facebookId = fbUser.id;
+                        name = fbUser.name;
+                        email = (fbUser === null || fbUser === void 0 ? void 0 : fbUser.email) || '';
+                        avatar = ((_b = (_a = fbUser.picture) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.url) || '';
+                        return [4 /*yield*/, this.userService.findOne({
+                                platform: user_schema_1.UserPlatformTypeName.Facebook,
+                                platformId: facebookId
+                            })];
+                    case 5:
+                        user = _c.sent();
+                        if (!!user) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.userService.create({
+                                email: email,
+                                name: name,
+                                avatar: avatar,
+                                platform: user_schema_1.UserPlatformTypeName.Facebook,
+                                platformId: facebookId,
+                                isVerified: true,
+                                role: user_schema_1.UserRole.USER
+                            })];
+                    case 6:
+                        // Create new user
+                        user = _c.sent();
+                        _c.label = 7;
+                    case 7:
+                        accessTokenJwt = this.jwtService.sign({
+                            sub: user._id,
+                            email: user.email,
+                            role: user.role
+                        });
+                        return [2 /*return*/, {
+                                accessToken: accessTokenJwt,
+                                userInfo: user
+                            }];
+                }
+            });
+        });
+    };
+    AuthService.prototype.appleLogin = function (body) {
+        return __awaiter(this, void 0, void 0, function () {
+            var applePayload, e_2, appleId, email, name, user, accessToken;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, apple_auth_utils_1.verifyAppleToken(body.identityToken)];
+                    case 1:
+                        applePayload = _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_2 = _a.sent();
+                        throw new common_1.UnauthorizedException('Invalid Apple identity token');
+                    case 3:
+                        appleId = applePayload.sub;
+                        email = applePayload.email || '';
+                        name = body.name || '';
+                        return [4 /*yield*/, this.userService.findOne({
+                                platform: user_schema_1.UserPlatformTypeName.Apple,
+                                platformId: appleId
+                            })];
+                    case 4:
+                        user = _a.sent();
+                        if (!!user) return [3 /*break*/, 6];
+                        return [4 /*yield*/, this.userService.create({
+                                email: email,
+                                name: name,
+                                platform: user_schema_1.UserPlatformTypeName.Apple,
+                                platformId: appleId,
+                                isVerified: true,
+                                role: user_schema_1.UserRole.USER
+                            })];
+                    case 5:
+                        // Apple chỉ gửi tên trong lần đăng nhập đầu tiên
+                        user = _a.sent();
+                        _a.label = 6;
+                    case 6:
+                        accessToken = this.jwtService.sign({
+                            sub: user._id,
+                            email: user.email,
+                            role: user.role
+                        });
                         return [2 /*return*/, {
                                 accessToken: accessToken,
                                 userInfo: user
