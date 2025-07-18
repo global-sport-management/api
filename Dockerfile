@@ -29,7 +29,7 @@ RUN npm run build
 COPY src/i18n /app/dist/i18n
 
 # Expose the port that the application will run on
-EXPOSE 8001
+EXPOSE 6001
 
 # Command to run the application
 CMD ["node", "/app/dist/main"]
