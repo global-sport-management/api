@@ -14,9 +14,9 @@ import { LoggingInterceptor } from './common/logging/logging.interceptor';
 import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 
 //import { PaymentModule } from './modules/payment/payment.module';
-import { ClubsModule } from './clubs/clubs.module';
-import { EventsModule } from './events/events.module';
-import { PaymentsModule } from './payments/payments.module';
+import { ClubsModule } from './modules/clubs/clubs.module';
+import { EventsModule } from './modules/events/events.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
