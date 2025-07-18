@@ -111,6 +111,35 @@ export class User {
   })
   platformId: string;
 
+  @Prop({ type: mongoose.Schema.Types.Array, default: []})
+  @ApiProperty({
+    description: 'sports)',
+  })
+  sports: Array<ObjectId>;
+
+  @Prop({ type: mongoose.Schema.Types.Array, default: []})
+  @ApiProperty({
+    description: 'clubs',
+  })
+  clubs: Array<ObjectId>;
+
+  @Prop({ type: mongoose.Schema.Types.String, default: '' })
+  @ApiProperty({  
+    description: 'country',
+  })
+  country: string;
+  @Prop({ type: mongoose.Schema.Types.String, default: '' })
+  @ApiProperty({  
+    description: 'state',
+  })
+  state: string;
+
+  @Prop({ type: mongoose.Schema.Types.String, default: '' })
+  @ApiProperty({  
+    description: 'city',
+  })
+  city: string;
+
   @Prop({ type: mongoose.Schema.Types.String, default: '' })
   @ApiProperty({
     description: 'otpCode',
