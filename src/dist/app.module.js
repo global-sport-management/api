@@ -18,6 +18,7 @@ var config_1 = require("@nestjs/config");
 var default_config_1 = require("./config/default.config");
 var custom_logger_service_1 = require("./common/logging/custom-logger.service");
 var core_1 = require("@nestjs/core");
+var logging_interceptor_1 = require("./common/logging/logging.interceptor");
 var throttler_1 = require("@nestjs/throttler");
 //import { PaymentModule } from './modules/payment/payment.module';
 var clubs_module_1 = require("./modules/clubs/clubs.module");
@@ -67,10 +68,10 @@ var AppModule = /** @class */ (function () {
             providers: [
                 app_service_1.AppService,
                 custom_logger_service_1.CustomLoggerService,
-                // {
-                //   provide: APP_INTERCEPTOR,
-                //   useClass: LoggingInterceptor,
-                // },
+                {
+                    provide: core_1.APP_INTERCEPTOR,
+                    useClass: logging_interceptor_1.LoggingInterceptor
+                },
                 {
                     provide: core_1.APP_GUARD,
                     useClass: throttler_1.ThrottlerGuard

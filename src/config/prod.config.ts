@@ -1,3 +1,3 @@
 export const configuration = {
-  PORT: 8001,
+  PORT: 6001,
 };
