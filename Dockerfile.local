@@ -1,0 +1,17 @@
+FROM node:18.16-alpine
+
+RUN apk add --no-cache --virtual .gyp python3 make g++
+RUN npm i -g @nestjs/cli
+RUN npm i -g mocha
+
+RUN mkdir /app
+
+WORKDIR /app
+
+COPY package.json ./
+
+COPY tsconfig.build.json ./
+
+COPY src/i18n /app/dist/i18n
+
+RUN npm install

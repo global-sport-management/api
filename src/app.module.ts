@@ -1,0 +1,66 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { merge } from 'lodash';
+
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { defaultConfig } from './config/default.config';
+import { CustomLoggerService } from './common/logging/custom-logger.service';
+import {APP_GUARD, APP_INTERCEPTOR} from '@nestjs/core';
+import { LoggingInterceptor } from './common/logging/logging.interceptor';
+import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
+
+//import { PaymentModule } from './modules/payment/payment.module';
+
+@Module({
+  imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 60000,
+      limit: 1000,
+    }]),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [
+        () => {
+          let envConfig = {};
+          try {
+            envConfig =
+              // eslint-disable-next-line @typescript-eslint/no-var-requires
+              require(
+                `./config/${process.env.ENVIRONMENT}.config`,
+              ).configuration;
+          } catch (e) {}
+          return merge(defaultConfig, envConfig, process.env);
+        },
+      ],
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          uri: configService.get('MONGO_URL'),
+        };
+      },
+    }),
+    AuthModule,
+    UserModule,
+  ],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    CustomLoggerService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
+})
+export class AppModule {}

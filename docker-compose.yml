@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  defi-api:
+    restart: always
+    stdin_open: true
+    image: sm-api-image:1.0
+    build:
+      context: ./
+      dockerfile: Dockerfile.local
+    container_name: sm-api
+    command: 'npm run start:dev'
+    # command: 'npm run build && node /app/dist/src/main'
+    ports:
+      - 7001:7001
+    volumes:
+      - ./:/app
+      - /app/node_modules
+
+    environment:
+      - ENVIRONMENT=local
+      - API_SERVICE=api
+
+    env_file:
+      - .env
+      - local.env
+    logging:
+      options:
+        max-size: 10m
+    networks:
+      network:
+        aliases:
+          - sm-api
+
+networks:
+  network:
+    name: sm-api-network
+    external: false

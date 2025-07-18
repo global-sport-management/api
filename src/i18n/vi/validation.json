@@ -1,0 +1,7 @@
+{
+  "NOT_EMPTY": "{property} không được rỗng",
+  "INVALID_EMAIL": "email không hợp lệ",
+  "INVALID_BOOLEAN": "{property} không phải giá trị boolean",
+  "MIN": "{property} with value: \"{value}\" needs to be at least {constraints.0}, ow and {message}",
+  "MAX": "{property} with value: \"{value}\" needs to be less than {constraints.0}, ow and {message}"
+}
