@@ -44,6 +44,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
+        console.log('🚀 MONGO_URL:', configService.get('MONGO_URL'))
         return {
           uri: configService.get('MONGO_URL'),
         };

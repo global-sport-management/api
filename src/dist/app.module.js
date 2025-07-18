@@ -53,6 +53,7 @@ var AppModule = /** @class */ (function () {
                     imports: [config_1.ConfigModule],
                     inject: [config_1.ConfigService],
                     useFactory: function (configService) {
+                        console.log('🚀 MONGO_URL:', configService.get('MONGO_URL'));
                         return {
                             uri: configService.get('MONGO_URL')
                         };
