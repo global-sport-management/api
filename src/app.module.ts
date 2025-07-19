@@ -13,6 +13,7 @@ import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 import { ClubsModule } from './modules/clubs/clubs.module';
 import { EventsModule } from './modules/events/events.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import {SportsModule} from "@/modules/sports/sports.module";
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
     ClubsModule,
     EventsModule,
     PaymentsModule,
+    SportsModule,
   ],
   controllers: [AppController],
   providers: [
