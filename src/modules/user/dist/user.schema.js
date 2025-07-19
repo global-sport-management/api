@@ -6,45 +6,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.UserDocumentSchema = exports.User = exports.UserStatus = exports.UserGender = exports.UserDeviceOS = exports.UserPlatformTypeName = exports.UserRole = void 0;
+exports.UserDocumentSchema = exports.User = void 0;
 var mongoose_1 = require("@nestjs/mongoose");
 var swagger_1 = require("@nestjs/swagger");
 var mongoose_2 = require("mongoose");
-var UserRole;
-(function (UserRole) {
-    UserRole["ADMIN"] = "admin";
-    UserRole["USER"] = "user";
-})(UserRole = exports.UserRole || (exports.UserRole = {}));
-var UserPlatformTypeName;
-(function (UserPlatformTypeName) {
-    UserPlatformTypeName["Email"] = "email";
-    UserPlatformTypeName["Google"] = "google";
-    UserPlatformTypeName["Facebook"] = "facebook";
-    UserPlatformTypeName["Apple"] = "apple";
-    UserPlatformTypeName["Twitter"] = "twitter";
-    UserPlatformTypeName["Telegram"] = "telegram";
-    UserPlatformTypeName["Discord"] = "discord";
-    UserPlatformTypeName["Web"] = "web";
-    UserPlatformTypeName["Medium"] = "medium";
-})(UserPlatformTypeName = exports.UserPlatformTypeName || (exports.UserPlatformTypeName = {}));
-var UserDeviceOS;
-(function (UserDeviceOS) {
-    UserDeviceOS["ANDROID"] = "android";
-    UserDeviceOS["IOS"] = "ios";
-})(UserDeviceOS = exports.UserDeviceOS || (exports.UserDeviceOS = {}));
-var UserGender;
-(function (UserGender) {
-    UserGender["MALE"] = "male";
-    UserGender["FEMALE"] = "female";
-    UserGender["OTHER"] = "other";
-    UserGender["NOT_SPECIFIED"] = "not_specified";
-})(UserGender = exports.UserGender || (exports.UserGender = {}));
-var UserStatus;
-(function (UserStatus) {
-    UserStatus["ACTIVE"] = "active";
-    UserStatus["INACTIVE"] = "inactive";
-    UserStatus["BLOCKED"] = "blocked";
-})(UserStatus = exports.UserStatus || (exports.UserStatus = {}));
+var enums_1 = require("@/common/enums");
 var User = /** @class */ (function () {
     function User() {
     }
@@ -86,7 +52,7 @@ var User = /** @class */ (function () {
         })
     ], User.prototype, "phoneNumber");
     __decorate([
-        mongoose_1.Prop({ type: mongoose_2["default"].Schema.Types.String, "enum": UserPlatformTypeName, "default": UserPlatformTypeName.Email }),
+        mongoose_1.Prop({ type: mongoose_2["default"].Schema.Types.String, "enum": enums_1.UserPlatformTypeName, "default": enums_1.UserPlatformTypeName.Email }),
         swagger_1.ApiProperty({
             description: 'Platform used for registration/login (email, google, facebook, apple, etc.)'
         })
@@ -149,7 +115,7 @@ var User = /** @class */ (function () {
         })
     ], User.prototype, "hash");
     __decorate([
-        mongoose_1.Prop({ type: mongoose_2["default"].Schema.Types.String, "default": UserRole.USER }),
+        mongoose_1.Prop({ type: mongoose_2["default"].Schema.Types.String, "default": enums_1.UserRole.USER }),
         swagger_1.ApiProperty({
             description: 'User role'
         })
