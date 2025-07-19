@@ -2,7 +2,7 @@ import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException,
 import { AuthInterface } from './auth.service.interface';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserPlatformTypeName, UserRole } from '../user/user.schema';
+import { UserPlatformTypeName, UserRole } from '@/common/enums';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { CustomLoggerService } from 'src/common/logging/custom-logger.service';

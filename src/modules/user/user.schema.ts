@@ -1,44 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import mongoose, { Document, ObjectId } from 'mongoose';
+import { UserRole, UserGender, UserPlatformTypeName } from '@/common/enums';
 
 
 export type UserDocument = User & Document;
 
 
-export enum UserRole {
-  ADMIN = 'admin',
-  USER = 'user',
-}
 
-export enum UserPlatformTypeName {
-  Email = 'email',
-  Google = 'google',
-  Facebook = 'facebook',
-  Apple = 'apple',
-  Twitter = 'twitter',
-  Telegram = 'telegram',
-  Discord = 'discord',
-  Web = 'web',
-  Medium = 'medium',
-}
-
-export enum UserDeviceOS {
-  ANDROID = 'android',
-  IOS = 'ios',
-}
-
-export enum UserGender {
-  MALE = 'male',
-  FEMALE = 'female',
-  OTHER = 'other',
-  NOT_SPECIFIED = 'not_specified',
-}
-export enum UserStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  BLOCKED = 'blocked',
-}
 @Schema({
   toJSON: {
     virtuals: true,
