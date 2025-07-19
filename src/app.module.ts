@@ -59,11 +59,11 @@ import { PaymentsModule } from './modules/payments/payments.module';
   controllers: [AppController],
   providers: [
     AppService,
-    CustomLoggerService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
+    // CustomLoggerService,
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: LoggingInterceptor,
+    // },
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
