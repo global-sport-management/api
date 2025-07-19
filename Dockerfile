@@ -26,10 +26,10 @@ COPY . .
 RUN npm run build
 
 # Copy i18n directory to the appropriate build location
-COPY src/i18n /app/dist/i18n
+#COPY src/i18n /app/dist/i18n
 
 # Expose the port that the application will run on
 EXPOSE 6001
 
 # Command to run the application
-CMD ["node", "/app/dist/main"]
+CMD ["node", "/app/dist/src/main"]
