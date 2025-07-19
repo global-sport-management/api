@@ -1,5 +1,6 @@
 # compiled output
 /dist
+**/dist/
 /node_modules
 
 # Logs
@@ -13,6 +14,10 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+
+# IDE
+.vscode/
+.idea/
 
 # Tests
 /coverage
@@ -34,5 +39,21 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Coverage
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
 .env
 .env.production
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
