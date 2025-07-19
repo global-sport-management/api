@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import * as jwksClient from 'jwks-rsa';
+import jwksClient from 'jwks-rsa';
 
 const client = jwksClient({
   jwksUri: 'https://appleid.apple.com/auth/keys',

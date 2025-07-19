@@ -8,12 +8,8 @@ import { UserModule } from './modules/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { defaultConfig } from './config/default.config';
-import { CustomLoggerService } from './common/logging/custom-logger.service';
-import {APP_GUARD, APP_INTERCEPTOR} from '@nestjs/core';
-import { LoggingInterceptor } from './common/logging/logging.interceptor';
+import {APP_GUARD} from '@nestjs/core';
 import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
-
-//import { PaymentModule } from './modules/payment/payment.module';
 import { ClubsModule } from './modules/clubs/clubs.module';
 import { EventsModule } from './modules/events/events.module';
 import { PaymentsModule } from './modules/payments/payments.module';
