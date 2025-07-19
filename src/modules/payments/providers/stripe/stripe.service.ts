@@ -26,11 +26,7 @@ export class StripeService implements PaymentProvider {
   }
 
   async verifyWebhook(payload: Buffer, sig: string) {
-    const secret = this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
-    if (!secret) {
-      throw new Error('STRIPE_WEBHOOK_SECRET is not defined.');
-    }
-
+    const secret = process.env.STRIPE_WEBHOOK_SECRET;
     return this.stripe.webhooks.constructEvent(payload, sig, secret);
   }
 }
