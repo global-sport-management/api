@@ -1,0 +1,442 @@
+[
+  {
+    "_id": {
+      "$oid": "687bbda77c5c23743768b2fc"
+    },
+    "name": "Football",
+    "name_vi": "Bóng đá",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/football.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda72195313e1e1b5893"
+    },
+    "name": "Basketball",
+    "name_vi": "Bóng rổ",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/basketball.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda77f78b89d1ab6a38a"
+    },
+    "name": "Volleyball",
+    "name_vi": "Bóng chuyền",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/volleyball.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda78e38b2bc0c5cc81c"
+    },
+    "name": "Tennis",
+    "name_vi": "Quần vợt",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/tennis.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda70515e5ac452c1968"
+    },
+    "name": "Badminton",
+    "name_vi": "Cầu lông",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/badminton.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda767e9f806b0664261"
+    },
+    "name": "Golf",
+    "name_vi": "Golf",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/golf.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7fa31777beefb3736"
+    },
+    "name": "Baseball",
+    "name_vi": "Bóng chày",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/baseball.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda71f0fd62b6689f75e"
+    },
+    "name": "Rugby",
+    "name_vi": "Bóng bầu dục",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/rugby.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7d5374e18a9fd4507"
+    },
+    "name": "Hockey",
+    "name_vi": "Khúc côn cầu",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/hockey.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda79bc60abaff88121c"
+    },
+    "name": "Table Tennis",
+    "name_vi": "Bóng bàn",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/table-tennis.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7747eed28f9e5a0ae"
+    },
+    "name": "Boxing",
+    "name_vi": "Đấm bốc",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/boxing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7d9b9d66acd345cef"
+    },
+    "name": "Karate",
+    "name_vi": "Karate",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/karate.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7457b3e34a9c60c83"
+    },
+    "name": "Judo",
+    "name_vi": "Judo",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/judo.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda77d25421b1d56fdae"
+    },
+    "name": "Swimming",
+    "name_vi": "Bơi lội",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/swimming.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda767fd1a01fdf0b3a1"
+    },
+    "name": "Diving",
+    "name_vi": "Lặn",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/diving.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7f640903a9bb77d6d"
+    },
+    "name": "Water Polo",
+    "name_vi": "Bóng nước",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/water-polo.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7c8d47f9b9a48faa4"
+    },
+    "name": "Cycling",
+    "name_vi": "Xe đạp",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/cycling.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7a625bc47fbd5f03e"
+    },
+    "name": "Mountain Biking",
+    "name_vi": "Xe đạp địa hình",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/mountain-biking.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda703385640745943d8"
+    },
+    "name": "Skateboarding",
+    "name_vi": "Trượt ván",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/skateboarding.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7e6bd0452cb360506"
+    },
+    "name": "Rollerblading",
+    "name_vi": "Trượt patin",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/rollerblading.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7e49b448d94031e9a"
+    },
+    "name": "Surfing",
+    "name_vi": "Lướt sóng",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/surfing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7f39952f637421c93"
+    },
+    "name": "Skiing",
+    "name_vi": "Trượt tuyết",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/skiing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda75fba940f5402e3ac"
+    },
+    "name": "Snowboarding",
+    "name_vi": "Trượt ván tuyết",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/snowboarding.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda777337ccf5d164473"
+    },
+    "name": "Sailing",
+    "name_vi": "Thuyền buồm",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/sailing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda756117b4b8da819f0"
+    },
+    "name": "Rowing",
+    "name_vi": "Chèo thuyền",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/rowing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7fb945a240a348dfd"
+    },
+    "name": "Canoeing",
+    "name_vi": "Ca nô",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/canoeing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda70dabf801b7aa1d69"
+    },
+    "name": "Kayaking",
+    "name_vi": "Thuyền kayak",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/kayaking.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7a285d64dc6b544b3"
+    },
+    "name": "Fishing",
+    "name_vi": "Câu cá",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/fishing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7869bdd9f2b6de4ff"
+    },
+    "name": "Windsurfing",
+    "name_vi": "Lướt ván buồm",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/windsurfing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda75e270c2f9e97a46b"
+    },
+    "name": "Kitesurfing",
+    "name_vi": "Lướt ván diều",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/kitesurfing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda74b0a8b4753178e7e"
+    },
+    "name": "Running",
+    "name_vi": "Chạy bộ",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/running.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7568902560a0a26a0"
+    },
+    "name": "Weightlifting",
+    "name_vi": "Cử tạ",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/weightlifting.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda72b9103cd28d736de"
+    },
+    "name": "Gymnastics",
+    "name_vi": "Thể dục dụng cụ",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/gymnastics.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda78f71e0c4287a57e7"
+    },
+    "name": "Yoga",
+    "name_vi": "Yoga",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/yoga.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7a51a49e7126ca017"
+    },
+    "name": "Pilates",
+    "name_vi": "Pilates",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/pilates.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7865881ddb92c0790"
+    },
+    "name": "Climbing",
+    "name_vi": "Leo núi",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/climbing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda759c3fa4d5c4e0e80"
+    },
+    "name": "Archery",
+    "name_vi": "Bắn cung",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/archery.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7c08d38aa6111f602"
+    },
+    "name": "Fencing",
+    "name_vi": "Đấu kiếm",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/fencing.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7c40a5dd5410b81ee"
+    },
+    "name": "Shooting",
+    "name_vi": "Bắn súng",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/shooting.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda76797a0ed0423cab4"
+    },
+    "name": "Bowling",
+    "name_vi": "Bowling",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/bowling.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7c9e3840dbeac1db3"
+    },
+    "name": "Snooker",
+    "name_vi": "Bi-a",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/snooker.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7d53df2e1d9dbbddc"
+    },
+    "name": "American Football",
+    "name_vi": "Bóng bầu dục Mỹ",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/american-football.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7a313d6630860cd52"
+    },
+    "name": "Cricket",
+    "name_vi": "Cricket",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/cricket.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7fe83ff11fa35c4e5"
+    },
+    "name": "Wrestling",
+    "name_vi": "Đấu vật",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/wrestling.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7db06f27dc97dacc0"
+    },
+    "name": "Taekwondo",
+    "name_vi": "Taekwondo",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/taekwondo.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda790ffd7bf4dfea912"
+    },
+    "name": "Jiu-Jitsu",
+    "name_vi": "Jiu-Jitsu",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/jiu-jitsu.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7b31873c8ae49d4f3"
+    },
+    "name": "Handball",
+    "name_vi": "Bóng ném",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/handball.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7d231c2a5d21f9c8f"
+    },
+    "name": "Lacrosse",
+    "name_vi": "Lacrosse",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/lacrosse.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda79ba9e5745d6f9115"
+    },
+    "name": "Squash",
+    "name_vi": "Squash",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/squash.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda713bd3c13e67b402f"
+    },
+    "name": "Pickleball",
+    "name_vi": "Pickleball",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/pickleball.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda707c96487adb832ce"
+    },
+    "name": "Darts",
+    "name_vi": "Phi tiêu",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/darts.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda790360c6a863b9421"
+    },
+    "name": "Curling",
+    "name_vi": "Bi đá trên băng",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/curling.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7ea0f16bb6b0cac2e"
+    },
+    "name": "Ice Skating",
+    "name_vi": "Trượt băng",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/ice-skating.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda7d1762b1c99b71e69"
+    },
+    "name": "Wakeboarding",
+    "name_vi": "Lướt ván nước",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/wakeboarding.png"
+  },
+  {
+    "_id": {
+      "$oid": "687bbda75db5e2e93ad39e65"
+    },
+    "name": "Motocross",
+    "name_vi": "Đua mô tô địa hình",
+    "icon_url": "https://cdn.jsdelivr.net/gh/global-sport-management/sports/motocross.png"
+  }
+]
