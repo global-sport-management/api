@@ -6,7 +6,7 @@ import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class StripeService implements PaymentProvider {
-  public stripe: Stripe;
+  //public stripe: Stripe;
 
   constructor(private configService: ConfigService) {
     const apiKey = process.env.STRIPE_SECRET_KEY
@@ -14,23 +14,19 @@ export class StripeService implements PaymentProvider {
     //   throw new Error('STRIPE_SECRET_KEY is not defined in environment variables.');
     // }
 
-    this.stripe = new Stripe(apiKey, {
-      apiVersion: '2025-06-30.basil',
-    });
+    // this.stripe = new Stripe(apiKey, {
+    //   apiVersion: '2025-06-30.basil',
+    // });
   }
 
   async createPayment(data: CreatePaymentDto) {
-    return this.stripe.checkout.sessions.create({
-      // add your Stripe checkout configuration here
-    });
+    // return this.stripe.checkout.sessions.create({
+    //   // add your Stripe checkout configuration here
+    // });
   }
 
   async verifyWebhook(payload: Buffer, sig: string) {
-    const secret = this.configService.get<string>('STRIPE_WEBHOOK_SECRET');
-    if (!secret) {
-      throw new Error('STRIPE_WEBHOOK_SECRET is not defined.');
-    }
-
-    return this.stripe.webhooks.constructEvent(payload, sig, secret);
+    // const secret = process.env.STRIPE_WEBHOOK_SECRET;
+    // return this.stripe.webhooks.constructEvent(payload, sig, secret);
   }
 }

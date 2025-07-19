@@ -1,35 +1,26 @@
-# Base image
 FROM node:18.16-alpine
 
-# Install dependencies for building native modules
+# Build dependencies for native modules
 RUN apk add --no-cache --virtual .gyp python3 make g++
 
-# Install global npm packages
-RUN npm i -g @nestjs/cli
-RUN npm i -g mocha
+# Global Nest CLI
+RUN npm install -g @nestjs/cli
 
-# Create and set the working directory
-RUN mkdir /app
+# App directory
 WORKDIR /app
 
-# Copy package.json and tsconfig.build.json to the container
-COPY package.json ./
-COPY tsconfig.build.json ./
-
-# Install dependencies
+# Install only production deps
+COPY package*.json ./
 RUN npm install
 
-# Copy the entire source code to the container
+# Copy source
 COPY . .
 
-# Build the application
+# Build NestJS app
 RUN npm run build
 
-# Copy i18n directory to the appropriate build location
-#COPY src/i18n /app/dist/i18n
-
-# Expose the port that the application will run on
+# Expose app port
 EXPOSE 6001
 
-# Command to run the application
-CMD ["node", "/app/dist/src/main"]
+# Start app
+CMD ["node", "dist/main"]

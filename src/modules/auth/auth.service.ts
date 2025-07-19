@@ -12,11 +12,10 @@ import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import { verifyAppleToken } from './apple-auth.utils';
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
-
 @Injectable()
 export class AuthService implements AuthInterface {
+  private client: OAuth2Client;
+
   constructor(
     @Inject(forwardRef(() => UserService))
     private userService: UserService,
@@ -24,6 +23,9 @@ export class AuthService implements AuthInterface {
     private readonly configService: ConfigService,
     private readonly logger: CustomLoggerService,
   ) {
+    // Initialize Google OAuth client with ConfigService
+    const googleClientId = this.configService.get('GOOGLE_CLIENT_ID');
+    this.client = new OAuth2Client(googleClientId);
   }
   async sendOtp(body: SendOtpDto) {
      const otp = await this.userService.generateOtp(body.phoneNumber);
@@ -61,9 +63,6 @@ export class AuthService implements AuthInterface {
     const user: any = await this.userService.findOne({ email: body.email, enable: true });
     if (user) {
       if (bcrypt.compareSync(body.password, user.hash)) {
-        if (!user.isVerified) {
-          throw new UnauthorizedException('Số điện thoại chưa được xác thực.');
-        }
         const accessToken = await this.generateToken(user);
         console.log(`${new Date()} login from email: ${body.email}`);
         return { accessToken, userInfo: user }
@@ -78,9 +77,9 @@ export class AuthService implements AuthInterface {
   }
   async googleLogin(body: any) {
 
-    const ticket = await client.verifyIdToken({
+    const ticket = await this.client.verifyIdToken({
       idToken: body.token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: this.configService.get('GOOGLE_CLIENT_ID'),
     });
 
     const payload = ticket.getPayload();
